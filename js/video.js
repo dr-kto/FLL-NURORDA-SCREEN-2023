@@ -2,6 +2,16 @@ let match = 1
 const base = 'https://docs.google.com/spreadsheets/d/1X9Lyyi4Mz5hXroldW-PGGg_Dp85shdfMao-dozYXGMQ'+'/gviz/tq?'+'tqx=out:txt&sheet='+'RG CALC'
 const query = encodeURIComponent('Select *  ')
 const url = base + '&tq=' + query;
+
+function sleep(ms)
+{
+  return new Promise((resolve, reject) => {
+      setTimeout(() => {
+          resolve(ms);
+      }, ms);
+  })
+}
+
 async function fetchWithTimeout(resource, options = {}) {
     const { timeout = 1000 } = options;
 
@@ -31,20 +41,20 @@ async function getData() {
         console.log(data?.table.cols[2].label.replace(new RegExp(".+ ","gm"), ""))
 
 
-        document.querySelector('.nleft').innerHTML = data?.table.cols[2].label.replace(new RegExp(".+ ","gm"), "")
-        document.querySelector('.nright').innerHTML = data?.table.cols[3].label.replace(new RegExp(".+ ","gm"), "")
-        document.querySelector('.sleft').innerHTML = data?.table.rows[0].c[2]?.v
-        document.querySelector('.sright').innerHTML = data?.table.rows[0].c[3]?.v
-        document.querySelector('.info1').innerHTML = data?.table.cols[1].label.replace(new RegExp("^([^\sT]+) ","gm"), "")
+        document.querySelector('.nleft').innerHTML = data.table.rows[1].c[2].v
+        document.querySelector('.nright').innerHTML = data.table.rows[1].c[3].v
+        document.querySelector('.sleft').innerHTML = data?.table.rows[2].c[2]?.v
+        document.querySelector('.sright').innerHTML = data?.table.rows[2].c[3]?.v
+        document.querySelector('.info1').innerHTML =  data?.table.rows[1].c[1]?.v
         // if(parallel)
         // {
-            document.querySelector('.plname').innerHTML = data?.table.cols[4].label.replace(new RegExp(".+ ","gm"), "")
-            document.querySelector('.prname').innerHTML = data?.table.cols[5].label.replace(new RegExp(".+ ","gm"), "")
-            document.querySelector('.plscore').innerHTML = data?.table.rows[0].c[4]?.v
-            document.querySelector('.prscore').innerHTML = data?.table.rows[0].c[5]?.v
-            document.querySelector('.pinfo1').innerHTML = data?.table.cols[1].label.replace(new RegExp("^([^\sT]+) ","gm"), "")
+            document.querySelector('.plname').innerHTML =  data?.table.rows[1].c[4]?.v
+            document.querySelector('.prname').innerHTML =  data?.table.rows[1].c[5]?.v
+            document.querySelector('.plscore').innerHTML =  data?.table.rows[2].c[4]?.v
+            document.querySelector('.prscore').innerHTML =  data?.table.rows[2].c[5]?.v
+            document.querySelector('.pinfo1').innerHTML =  data?.table.rows[1].c[1]?.v
         // }
-
+        await sleep(5000);
         getData()
     } catch (error) {
         // Timeouts if the request takes
