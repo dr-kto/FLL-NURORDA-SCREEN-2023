@@ -116,7 +116,7 @@ function countdown(element, minute, second, operation) {
 
 
         }
-        if (total === 30) {
+        if (tsec === 30 && tmin === 0) {
             var horn = new Audio('horn.wav')
             horn.play()
         }
